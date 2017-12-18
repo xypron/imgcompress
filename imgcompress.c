@@ -44,13 +44,13 @@ int main(int argc, char *argv[]) {
 		return EXIT_FAILURE;
 	}
 	count = fread(buf, 1, count, file);
-	printf("\\*\n");
+	printf("/*\n");
 	printf(" *  Non-zero %u byte strings of a disk image\n", L);
 	printf(" *\n");
 	printf(" *  Generated with https://github.com/xypron/imgcompress\n");
 	printf(" *\n");
 	printf(" *  SPDX-License-Identifier:     GPL-2.0+\n");
-	printf(" *\\\n\n");
+	printf(" */\n\n");
 	printf("#define EFI_ST_DISK_IMG { 0x%08x, { \\\n", count);
 
 	for (i = 0; i < count; i += L) {
