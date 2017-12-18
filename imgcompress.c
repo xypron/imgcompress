@@ -1,5 +1,5 @@
 /*
- * Convert a disk image to a C define
+ * Convert a file image to a C define
  *
  * (c) Heinrich Schuchardt <xypron.glpk@gmx.de>
  *
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
 	printf(" *\n");
 	printf(" *  SPDX-License-Identifier:     GPL-2.0+\n");
 	printf(" */\n\n");
-	printf("#define EFI_ST_DISK_IMG { 0x%08x, { \\\n", count);
+	printf("#define EFI_ST_DISK_IMG { 0x%08zx, { \\\n", count);
 
 	for (i = 0; i < count; i += L) {
 		int c = 0;
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
 		}
 		if (!c)
 			continue;
-		printf("\t{0x%08x, \"", i);
+		printf("\t{0x%08zx, \"", i);
 		for (j = i; j < i + L && j < count; ++j) {
 			printf("\\x%02x", buf[j]);
 		}
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
 			if (buf[j] >= 0x20 && buf[j] <= 0x7e)
 				printf("%c", buf[j]);
 			else
-				printf(".", buf[j]);
+				printf(".");
 		}
 		printf(" */ \\\n");
 	}
