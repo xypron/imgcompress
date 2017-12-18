@@ -6,7 +6,7 @@ Convert a disk image to a C define.
 Usage
 -----
 
-    imgcompress FILENAME > foo.h
+    imgcompress FILENAME > image.h
 
 The output might look like this:
 
@@ -24,3 +24,14 @@ The output might look like this:
         {0x00006000, "\x48\x65\x6c\x6c\x6f\x20\x77\x6f" /* Hello wo */ \
         {0x00006008, "\x72\x6c\x64\x21\x0a\x00\x00\x00" /* rld!.... */ \
         } }
+
+Decompression
+-------------
+
+File decompress.c shows how the compressed image can be restored.
+
+Let image.h contain an image file created by imgcompress. Then you can
+restore the original file with
+
+    make
+    ./decompress > FILENAME
