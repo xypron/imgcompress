@@ -12,7 +12,8 @@
 
 #define L 8
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	FILE *file;
 	int ret;
 	unsigned char *buf;
@@ -20,7 +21,7 @@ int main(int argc, char *argv[]) {
 
 	/* Provide usage help */
 	if (argc != 2) {
-		printf("Usage: \n%s FILENAME\n", argv[0]);
+		printf("Usage:\n%s FILENAME\n", argv[0]);
 		return EXIT_FAILURE;
 	}
 	/* Open file */
@@ -61,6 +62,7 @@ int main(int argc, char *argv[]) {
 
 	for (i = 0; i < count; i += L) {
 		int c = 0;
+
 		for (j = i; j < i + L && j < count; ++j) {
 			if (buf[j])
 				c = 1;
@@ -68,9 +70,8 @@ int main(int argc, char *argv[]) {
 		if (!c)
 			continue;
 		printf("\t{0x%08zx, \"", i);
-		for (j = i; j < i + L && j < count; ++j) {
+		for (j = i; j < i + L && j < count; ++j)
 			printf("\\x%02x", buf[j]);
-		}
 		printf("\"}, /* ");
 		for (j = i; j < i + L && j < count; ++j) {
 			if (buf[j] >= 0x20 && buf[j] <= 0x7e)
