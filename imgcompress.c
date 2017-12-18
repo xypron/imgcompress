@@ -18,15 +18,18 @@ int main(int argc, char *argv[]) {
 	unsigned char *buf;
 	size_t count, i, j;
 
+	/* Provide usage help */
 	if (argc != 2) {
 		printf("Usage: \n%s FILENAME\n", argv[0]);
 		return EXIT_FAILURE;
 	}
+	/* Open file */
 	file = fopen(argv[1], "r");
 	if (!file) {
 		perror("fopen");
 		return EXIT_FAILURE;
 	}
+	/* Get file length */
 	ret = fseek(file, 0, SEEK_END);
 	if (ret < 0) {
 		perror("fseek");
@@ -38,12 +41,15 @@ int main(int argc, char *argv[]) {
 		return EXIT_FAILURE;
 	}
 	rewind(file);
+	/* Read file */
 	buf = malloc(count);
 	if (!buf) {
 		perror("calloc");
 		return EXIT_FAILURE;
 	}
 	count = fread(buf, 1, count, file);
+
+	/* Generate output */
 	printf("/*\n");
 	printf(" *  Non-zero %u byte strings of a disk image\n", L);
 	printf(" *\n");
@@ -65,7 +71,7 @@ int main(int argc, char *argv[]) {
 		for (j = i; j < i + L && j < count; ++j) {
 			printf("\\x%02x", buf[j]);
 		}
-		printf("\" /* ");
+		printf("\"}, /* ");
 		for (j = i; j < i + L && j < count; ++j) {
 			if (buf[j] >= 0x20 && buf[j] <= 0x7e)
 				printf("%c", buf[j]);
@@ -74,8 +80,10 @@ int main(int argc, char *argv[]) {
 		}
 		printf(" */ \\\n");
 	}
-	printf("\t} }\n");
+	printf("\t{0, NULL} } }\n");
 
+	/* Release resources */
+	free(buf);
 	ret = fclose(file);
 	if (ret) {
 		perror("fclose");
